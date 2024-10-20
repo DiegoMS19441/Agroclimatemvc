@@ -5,65 +5,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Fazenda</title>
-    <script>
-        function formatarCEP(input) {
-            let valor = input.value.replace(/\D/g, '');
-            if (valor.length > 5){valor = valor.slice(0, 5) + '-' + valor.slice(5);}
-            input.value = valor;}
-        function formatarCNPJ(input) {
-            let valor = input.value.replace(/\D/g, '');
-            if (valor.length > 2) {valor = valor.slice(0, 2) + '.' + valor.slice(2);}
-            if (valor.length > 6) {valor = valor.slice(0, 6) + '.' + valor.slice(6);}
-            if (valor.length > 10) {valor = valor.slice(0, 10) + '/' + valor.slice(10);}
-            if (valor.length > 15) {valor = valor.slice(0, 15) + '-' + valor.slice(15);}
-            input.value = valor;
-        }
-        function permitirApenasNumeros(event) {
-            if (!/[0-9]/.test(event.key) && event.key !== 'Backspace') {event.preventDefault();}
-        }
-    </script>
+
 
 </head>
 <body>
 <div layout:fragment="conteudo">
-    <h1>Cadastro de Fazenda</h1>
+    <h1 class="mb-sm-3">Cadastro de Fazenda</h1>
     <div class="alert alert-success" th:if="!${#strings.isEmpty(mensagem)}" th:text="${mensagem}"></div>
 
     <form th:action="@{/fazenda/cadastrar}" th:object="${fazenda}" method="post">
-        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-        </div>
         <div class="row">
             <div class="col-md-4 mb-3">
                 <label class="form-label">CNPJ</label>
-                <input type="text" th:field="*{cnpj}" class="form-control w-50" placeholder="Insira o CNPJ"
-                       oninput="formatarCNPJ(this)"
-                       onkeydown="permitirApenasNumeros(event)">
+                <input type="text" th:field="*{cnpj}" class="form-control w-50" placeholder="Insira o CNPJ">
                 <p th:if="${#fields.hasErrors('cnpj')}" class="text text-danger" th:errors="*{cnpj}"></p>
             </div>
             <div class="col-md-4 mb-3 w-55">
                 <label class="form-label">Razão Social</label>
-                <input type="text" th:field="*{razaoSocial}" class="form-control">
+                <input type="text" th:field="*{razaoSocial}" class="form-control" placeholder="Razão Social">
                 <p th:if="${#fields.hasErrors('razaoSocial')}" class="text text-danger" th:errors="*{razaoSocial}"></p>
             </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">CEP</label>
-            <input type="text" class="form-control w-25" th:field="*{cep}"
-                   oninput="formatarCEP(this)"
-                   onkeydown="permitirApenasNumeros(event)"
-                   placeholder="Digite seu CEP">
-            <p th:if="${#fields.hasErrors('cep')}" class="text text-danger" th:errors="*{cep}"></p>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">CEP</label>
+                <input type="text" class="form-control w-25" th:field="*{cep}" placeholder="CEP">
+                <p th:if="${#fields.hasErrors('cep')}" class="text text-danger" th:errors="*{cep}"></p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Logradouro</label>
+                <input type="text" th:field="*{logradouro}" class="form-control w-75">
+                <p th:if="${#fields.hasErrors('logradouro')}" class="text text-danger" th:errors="*{logradouro}"></p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Número</label>
+                <input type="text" th:field="*{numero}" class="form-control w-25">
+                <p th:if="${#fields.hasErrors('numero')}" class="text text-danger" th:errors="*{numero}"></p>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control w-25" th:field="*{email}" placeholder="you@example.com">
-            <p th:if="${#fields.hasErrors('email')}" class="text text-danger" th:errors="*{email}"></p>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Telefone</label>
-            <input type="email" class="form-control w-25" th:field="*{telefone}">
-            <p th:if="${#fields.hasErrors('telefone')}" class="text text-danger" th:errors="*{telefone}"></p>
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control w-50" th:field="*{email}" placeholder="you@example.com">
+                <p th:if="${#fields.hasErrors('email')}" class="text text-danger" th:errors="*{email}"></p>
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Telefone</label>
+                <input type="text" class="form-control w-50" th:field="*{telefone}">
+                <p th:if="${#fields.hasErrors('telefone')}" class="text text-danger" th:errors="*{telefone}"></p>
+            </div>
         </div>
         <div class="mb-3">
             <label class="form-label">Tamanho da Fazenda</label>
@@ -81,8 +71,11 @@
                         th:title="${cl.descricao}"></option>
             </select>
         </div>
-        <button class="btn btn-success">Cadastrar</button>
+        <button class="btn btn-success mb-sm-3">Cadastrar</button>
     </form>
+    <div>
+
+    </div>
 </div>
 </body>
 </html>
